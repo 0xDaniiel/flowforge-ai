@@ -17,6 +17,16 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { useFlowStore } from "@/stores/flowStore";
 
+import FetchNode from "@/components/flow/nodes/FetchNode";
+import AINode from "@/components/flow/nodes/AINode";
+import DecisionNode from "@/components/flow/nodes/DecisionNode";
+
+const nodeTypes = {
+  fetch: FetchNode,
+  ai: AINode,
+  decision: DecisionNode,
+};
+
 interface FlowCanvasProps {
   setSelectedNodeId: (id: string | null) => void;
 }
@@ -60,7 +70,6 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
   return (
     <div
       className="w-full h-full"
-      onDragOver={(event) => event.preventDefault()}
       onDrop={(event) => {
         event.preventDefault();
         const type = event.dataTransfer.getData("application/reactflow");
@@ -70,12 +79,16 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
           y: event.clientY - reactFlowBounds.top,
         };
         const id = (nodes.length + 1).toString();
+
         const newNode: Node = {
           id,
-          type: "default",
+          type,
           position,
-          data: { label: `${type} Node` },
+          data: {
+            label: `${type.charAt(0).toUpperCase() + type.slice(1)} Node`,
+          },
         };
+
         setNodes([...nodes, newNode]);
       }}
     >
@@ -86,6 +99,7 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeClick={onNodeClick}
+        nodeTypes={nodeTypes}
         fitView
       >
         <MiniMap />
