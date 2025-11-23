@@ -1,0 +1,40 @@
+# **What the Project Is All About (README Explanation)**
+
+**FlowForge AI** is a **visual AI agent builder** that lets users design, connect, and simulate how an AI agent works — using an interactive, drag-and-drop interface.
+
+Instead of writing code, users can create agents by connecting **nodes** that represent steps such as:
+
+- fetching data
+- transforming information
+- making decisions
+- calling an AI model
+- triggering actions
+
+Each node represents a specific operation in the agent’s workflow. Users can connect these nodes to define the logic, then **run a simulation** to see how data moves through the system in real time.
+
+The project is built with **Next.js**, **React Flow**, **Zustand**, and **TailwindCSS**, and focuses on showing how AI workflows can be represented visually — similar to tools like LangFlow, Flowise, n8n, or Zapier.
+
+### **What This Project Demonstrates**
+
+This project shows your ability to build:
+
+- **Complex UI logic**
+- **State management**
+- **Graph-based interfaces**
+- **Drag-and-drop editors**
+- **Interactive workflow tools**
+- **Modern AI product UI/UX**
+- **React Flow node systems**
+- **Execution simulation and animations**
+
+### **Why It Matters**
+
+AI workflow tools are becoming a major trend in Europe, especially Germany and Switzerland.
+Companies need frontend engineers who understand:
+
+- **visualization of processes**
+- **state machines**
+- **node-based editors**
+- **AI agent orchestration**
+
+This project demonstrates exactly that.
