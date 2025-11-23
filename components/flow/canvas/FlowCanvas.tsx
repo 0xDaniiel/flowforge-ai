@@ -1,56 +1,91 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import ReactFlow, {
   addEdge,
+  applyNodeChanges,
+  applyEdgeChanges,
   MiniMap,
   Controls,
   Background,
   Node,
   Edge,
+  NodeChange,
+  EdgeChange,
+  OnConnect,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import { useFlowStore } from "@/stores/flowStore";
 
-const initialNodes: Node[] = [
-  {
-    id: "1",
-    type: "default",
-    position: { x: 100, y: 100 },
-    data: { label: "Start Node" },
-  },
-];
+interface FlowCanvasProps {
+  setSelectedNodeId: (id: string | null) => void;
+}
 
-const initialEdges: Edge[] = [];
+const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
+  const nodes = useFlowStore((state) => state.nodes);
+  const edges = useFlowStore((state) => state.edges);
+  const setNodes = useFlowStore((state) => state.setNodes);
+  const setEdges = useFlowStore((state) => state.setEdges);
 
-const FlowCanvas: React.FC = () => {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  // Initialize Start Node
+  React.useEffect(() => {
+    if (nodes.length === 0) {
+      setNodes([
+        {
+          id: "1",
+          type: "default",
+          position: { x: 100, y: 100 },
+          data: { label: "Start Node" },
+        },
+      ]);
+    }
+  }, [nodes, setNodes]);
 
-  const onNodesChange = (changes: any) =>
-    setNodes((nds) =>
-      nds.map((node) => ({
-        ...node,
-        ...changes.find((c: any) => c.id === node.id),
-      }))
-    );
-  const onEdgesChange = (changes: any) =>
-    setEdges((eds) =>
-      eds.map((edge) => ({
-        ...edge,
-        ...changes.find((c: any) => c.id === edge.id),
-      }))
-    );
-  const onConnect = (connection: any) =>
-    setEdges((eds) => addEdge(connection, eds));
+  const onNodesChange = (changes: NodeChange[]) => {
+    setNodes(applyNodeChanges(changes, nodes));
+  };
+
+  const onEdgesChange = (changes: EdgeChange[]) => {
+    setEdges(applyEdgeChanges(changes, edges));
+  };
+
+  const onConnect: OnConnect = (connection) => {
+    setEdges(addEdge(connection, edges));
+  };
+
+  const onNodeClick = (_: React.MouseEvent, node: Node) => {
+    setSelectedNodeId(node.id);
+  };
 
   return (
-    <div className="w-full h-full">
+    <div
+      className="w-full h-full"
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={(event) => {
+        event.preventDefault();
+        const type = event.dataTransfer.getData("application/reactflow");
+        const reactFlowBounds = event.currentTarget.getBoundingClientRect();
+        const position = {
+          x: event.clientX - reactFlowBounds.left,
+          y: event.clientY - reactFlowBounds.top,
+        };
+        const id = (nodes.length + 1).toString();
+        const newNode: Node = {
+          id,
+          type: "default",
+          position,
+          data: { label: `${type} Node` },
+        };
+        setNodes([...nodes, newNode]);
+      }}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onNodeClick={onNodeClick}
         fitView
       >
         <MiniMap />
