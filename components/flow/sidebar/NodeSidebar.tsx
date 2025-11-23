@@ -10,45 +10,76 @@ const NodeSidebar: React.FC = () => {
     { type: "decision", label: "Decision Node" },
   ];
 
-  // ✅ Define the simulation function here
-  const runSimulation = () => {
-    const { nodes, edges, setNodes } = useFlowStore.getState();
+  // ✅ Step-by-step simulation function
+  const runStepByStepSimulation = async () => {
+    const { nodes, edges, setNodes, setRunning, setHighlightedNodeId } =
+      useFlowStore.getState();
+    setRunning(true);
 
-    const updatedNodes = nodes.map((node) => {
+    // Start nodes with no incoming edges
+    const startNodes = nodes.filter(
+      (node) => !edges.some((e) => e.target === node.id)
+    );
+
+    const processed = new Set<string>();
+
+    const executeNode = async (node: (typeof nodes)[0]) => {
+      if (processed.has(node.id)) return;
+      processed.add(node.id);
+
+      // Highlight this node
+      setHighlightedNodeId(node.id);
+
+      // Assign value based on node type
+      let value = "";
       switch (node.type) {
         case "fetch":
-          return {
-            ...node,
-            data: { ...node.data, value: `Fetched from ${node.data.apiUrl}` },
-          };
+          value = `Fetched from ${node.data.apiUrl}`;
+          break;
         case "ai":
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              value: `AI output for "${node.data.prompt}"`,
-            },
-          };
+          value = `AI output for "${node.data.prompt}"`;
+          break;
         case "decision":
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              value: node.data.condition ? "True branch" : "False branch",
-            },
-          };
-        default:
-          return node;
+          value = node.data.condition ? "True branch" : "False branch";
+          break;
       }
-    });
 
-    setNodes(updatedNodes);
+      setNodes(
+        nodes.map((n) =>
+          n.id === node.id ? { ...n, data: { ...n.data, value } } : n
+        )
+      );
+
+      // Wait for visual effect
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Execute child nodes
+      const children = edges
+        .filter((e) => e.source === node.id)
+        .map((e) => nodes.find((n) => n.id === e.target))
+        .filter(Boolean) as typeof nodes;
+
+      for (const child of children) {
+        await executeNode(child);
+      }
+    };
+
+    for (const startNode of startNodes) {
+      await executeNode(startNode);
+    }
+
+    setHighlightedNodeId(null);
+    setRunning(false);
   };
+
+  // Get currently highlighted node for visual feedback
+  const highlightedNodeId = useFlowStore((state) => state.highlightedNodeId);
 
   return (
     <div>
       <h2 className="text-lg font-bold mb-4">Nodes</h2>
 
+      {/* Draggable nodes */}
       {nodeTypes.map((node) => (
         <div
           key={node.type}
@@ -63,6 +94,10 @@ const NodeSidebar: React.FC = () => {
               : node.type === "ai"
               ? "bg-green-500 text-white"
               : "bg-yellow-400 text-black"
+          } ${
+            highlightedNodeId === node.type
+              ? "ring-2 ring-indigo-500 animate-pulse"
+              : ""
           }`}
         >
           {node.label}
@@ -72,7 +107,7 @@ const NodeSidebar: React.FC = () => {
       {/* Run Simulation Button */}
       <button
         className="mt-4 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
-        onClick={runSimulation} // ✅ call it here
+        onClick={runStepByStepSimulation}
       >
         Run Simulation
       </button>

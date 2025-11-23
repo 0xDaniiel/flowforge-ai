@@ -21,6 +21,7 @@ import FetchNode from "@/components/flow/nodes/FetchNode";
 import AINode from "@/components/flow/nodes/AINode";
 import DecisionNode from "@/components/flow/nodes/DecisionNode";
 
+// Node types
 const nodeTypes = {
   fetch: FetchNode,
   ai: AINode,
@@ -36,6 +37,7 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
   const edges = useFlowStore((state) => state.edges);
   const setNodes = useFlowStore((state) => state.setNodes);
   const setEdges = useFlowStore((state) => state.setEdges);
+  const highlightedNodeId = useFlowStore((state) => state.highlightedNodeId);
 
   // Initialize Start Node
   React.useEffect(() => {
@@ -67,6 +69,15 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
     setSelectedNodeId(node.id);
   };
 
+  // Optional: Add highlighting style for default node
+  const nodeStyle = (node: Node) => ({
+    border:
+      node.id === highlightedNodeId ? "2px solid #4F46E5" : "1px solid #ccc",
+    padding: "8px",
+    borderRadius: "6px",
+    background: "#fff",
+  });
+
   return (
     <div
       className="w-full h-full"
@@ -93,7 +104,9 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
       }}
     >
       <ReactFlow
-        nodes={nodes}
+        nodes={nodes.map((node) =>
+          node.type === "default" ? { ...node, style: nodeStyle(node) } : node
+        )}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
