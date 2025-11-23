@@ -1,0 +1,52 @@
+"use client";
+
+import React from "react";
+import {
+  AiOutlineDrag,
+  AiOutlineNodeIndex,
+  AiOutlineRobot,
+} from "react-icons/ai";
+
+const featuresData = [
+  {
+    icon: <AiOutlineDrag className="text-6xl" />,
+    title: "Drag-and-Drop Nodes",
+    description:
+      "Easily create workflows by dragging and connecting nodes without writing code.",
+  },
+  {
+    icon: <AiOutlineNodeIndex className="text-6xl" />,
+    title: "Visual Workflow Builder",
+    description:
+      "Organize AI processes clearly with a visual representation of all steps.",
+  },
+  {
+    icon: <AiOutlineRobot className="text-6xl" />,
+    title: "Real-Time AI Simulation",
+    description:
+      "Run and simulate your AI agent workflows instantly, seeing results in real time.",
+  },
+];
+
+const Features = () => {
+  return (
+    <section id="features" className="py-20 bg-white text-black">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12">
+          Why FlowForge AI?
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {featuresData.map((feature, index) => (
+            <div key={index} className="flex flex-col items-center space-y-4">
+              {feature.icon}
+              <h3 className="text-xl font-semibold">{feature.title}</h3>
+              <p className="text-gray-700 max-w-xs">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Features;
