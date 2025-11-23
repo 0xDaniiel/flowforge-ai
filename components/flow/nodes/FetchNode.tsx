@@ -12,7 +12,6 @@ const FetchNode: React.FC<NodeProps> = ({ data }) => {
         <span>{data.label}</span>
       </div>
 
-      {/* Handles for connecting nodes */}
       <Handle type="target" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />
     </div>

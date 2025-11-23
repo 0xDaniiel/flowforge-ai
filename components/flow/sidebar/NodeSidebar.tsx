@@ -10,7 +10,7 @@ const NodeSidebar: React.FC = () => {
     { type: "decision", label: "Decision Node" },
   ];
 
-  // ✅ Step-by-step simulation function
+  // Step-by-step simulation function
   const runStepByStepSimulation = async () => {
     const { nodes, edges, setNodes, setRunning, setHighlightedNodeId } =
       useFlowStore.getState();

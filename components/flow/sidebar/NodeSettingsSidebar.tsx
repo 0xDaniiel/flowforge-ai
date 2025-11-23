@@ -82,7 +82,6 @@ const NodeSettingsSidebar: React.FC = () => {
         </>
       )}
 
-      {/* Decision Node */}
       {selectedNode.type === "decision" && (
         <>
           <label className="font-medium">Condition:</label>
