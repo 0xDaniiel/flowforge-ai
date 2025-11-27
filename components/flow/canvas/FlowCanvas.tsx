@@ -39,6 +39,7 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
   const setEdges = useFlowStore((state) => state.setEdges);
   const highlightedNodeId = useFlowStore((state) => state.highlightedNodeId);
 
+  // Initialize Start Node
   React.useEffect(() => {
     if (nodes.length === 0) {
       setNodes([

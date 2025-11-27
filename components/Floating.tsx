@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 interface FloatingInProps {
   children: ReactNode;
-  delay?: number; // optional delay
+  delay?: number;
 }
 
 export default function FloatingIn({ children, delay = 0 }: FloatingInProps) {

@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
+import { Database, Cpu, GitBranch } from "lucide-react";
 import { useFlowStore } from "@/stores/flowStore";
 
 const NodeSidebar: React.FC = () => {
   const nodeTypes = [
-    { type: "fetch", label: "Fetch Node" },
-    { type: "ai", label: "AI Node" },
-    { type: "decision", label: "Decision Node" },
+    { type: "fetch", label: "Fetch Node", icon: <Database size={16} /> },
+    { type: "ai", label: "AI Node", icon: <Cpu size={16} /> },
+    { type: "decision", label: "Decision Node", icon: <GitBranch size={16} /> },
   ];
 
   // Step-by-step simulation function
@@ -100,7 +101,10 @@ const NodeSidebar: React.FC = () => {
               : ""
           }`}
         >
-          {node.label}
+          <section className="flex gap-2 items-center">
+            <span> {node.icon}</span>
+            <span>{node.label}</span>
+          </section>
         </div>
       ))}
 

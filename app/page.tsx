@@ -54,15 +54,20 @@ export default function HomePage() {
           </div>
         </FloatingIn>
       </main>
-      <div className="my-10 w-full max-w-lg sm:max-w-xl">
-        <Image
-          src="/images/illustration.svg"
-          alt="AI Workflow Illustration"
-          width={600}
-          height={400}
-          className="mx-auto w-full h-auto"
-        />
-      </div>
+      <FloatingIn delay={0.5}>
+        <div className="flex justify-center my-10 w-full">
+          <div className="max-w-lg sm:max-w-xl w-full">
+            <Image
+              src="/images/illustration.svg"
+              alt="AI Workflow Illustration"
+              width={600}
+              height={400}
+              className="mx-auto w-full h-auto"
+            />
+          </div>
+        </div>
+      </FloatingIn>
+
       <Features />
 
       {/* How It Works */}
