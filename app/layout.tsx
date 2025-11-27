@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "Visual AI workflow builder using Next.js, React Flow, Zustand & Tailwind. Drag-and-drop nodes, connect steps, and simulate AI agent execution in real time.",
   icons: {
-    icon: "images/icon.png",
+    icon: "/images/icon.png",
   },
 };
 

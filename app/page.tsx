@@ -3,11 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import Features from "@/components/Features";
+import UseCases from "@/components/UseCases";
+import HowItWorks from "@/components/HowItWorks";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
-      {/* Hero */}
+      {/* Header */}
       <header className="py-6 px-4 md:px-6 flex justify-between items-center">
         <h1 className="text-2xl md:text-3xl font-bold">FlowForge AI</h1>
         <nav>
@@ -29,22 +31,22 @@ export default function HomePage() {
           nodes, define AI agent steps, and visualize processes instantly.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <Link
             href="/editor"
-            className="px-6 py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-sm sm:text-base"
+            className="px-4 py-2 sm:px-6 sm:py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-xs sm:text-sm md:text-base"
           >
             Try the Editor
           </Link>
           <Link
             href="#features"
-            className="px-6 py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-sm sm:text-base"
+            className="px-4 py-2 sm:px-6 sm:py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-xs sm:text-sm md:text-base"
           >
             Learn More
           </Link>
         </div>
 
-        <div className="mt-8 w-full max-w-lg sm:max-w-xl">
+        <div className="my-10 w-full max-w-lg sm:max-w-xl">
           <Image
             src="/images/illustration.svg"
             alt="AI Workflow Illustration"
@@ -57,9 +59,32 @@ export default function HomePage() {
 
       <Features />
 
+      {/* How It Works */}
+      <HowItWorks />
+
+      {/* Use Cases */}
+      <UseCases />
+
+      <section className="py-20 px-6 bg-white text-center border-t border-black">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          Ready to Build Your First AI Workflow?
+        </h2>
+        <p className="text-gray-700 mb-8">
+          Launch the editor and start creating in seconds.
+        </p>
+
+        <Link
+          href="/editor"
+          className="px-8 py-4 border border-black font-semibold rounded hover:bg-black hover:text-white transition"
+        >
+          Launch Editor
+        </Link>
+      </section>
+
+      {/* Footer */}
       <footer className="py-6 text-center border-t border-black text-sm">
-        © {new Date().getFullYear()} 0xDaniiel — FlowForge AI. All rights
-        reserved.
+        &copy; {new Date().getFullYear()} 0xDaniiel —{" "}
+        <strong>FlowForge AI</strong>
       </footer>
     </div>
   );
