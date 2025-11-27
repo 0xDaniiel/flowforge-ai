@@ -6,6 +6,7 @@ import {
   AiOutlineBranches,
   AiOutlineMessage,
 } from "react-icons/ai";
+import { motion, Variants } from "framer-motion";
 
 const useCases = [
   {
@@ -28,6 +29,20 @@ const useCases = [
   },
 ];
 
+const containerVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.2 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 80 },
+  },
+};
+
 export default function UseCases() {
   return (
     <section className="py-20 px-6 bg-white border-t border-black text-center">
@@ -35,18 +50,25 @@ export default function UseCases() {
         What You Can Build
       </h2>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+      <motion.div
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+      >
         {useCases.map((item, index) => (
-          <div
+          <motion.div
             key={index}
+            variants={itemVariants}
             className="flex flex-col items-center space-y-4 text-center"
           >
             {item.icon}
             <h3 className="text-xl font-semibold">{item.title}</h3>
             <p className="text-gray-700">{item.description}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

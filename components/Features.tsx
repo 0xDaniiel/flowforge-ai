@@ -6,6 +6,7 @@ import {
   AiOutlineNodeIndex,
   AiOutlineRobot,
 } from "react-icons/ai";
+import { motion, Variants } from "framer-motion";
 
 const featuresData = [
   {
@@ -28,6 +29,20 @@ const featuresData = [
   },
 ];
 
+const containerVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.2 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 80 },
+  },
+};
+
 const Features = () => {
   return (
     <section id="features" className="py-20 bg-white text-black">
@@ -35,15 +50,26 @@ const Features = () => {
         <h2 className="text-3xl md:text-4xl font-bold mb-12">
           Why FlowForge AI?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {featuresData.map((feature, index) => (
-            <div key={index} className="flex flex-col items-center space-y-4">
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="flex flex-col items-center space-y-4"
+            >
               {feature.icon}
               <h3 className="text-xl font-semibold">{feature.title}</h3>
               <p className="text-gray-700 max-w-xs">{feature.description}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

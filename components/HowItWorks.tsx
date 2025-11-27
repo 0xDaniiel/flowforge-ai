@@ -6,27 +6,37 @@ import {
   AiOutlineSwap,
   AiOutlinePlayCircle,
 } from "react-icons/ai";
+import { motion, Variants } from "framer-motion";
 
 const steps = [
   {
     icon: <AiOutlinePlusCircle className="text-6xl" />,
     title: "1. Add Nodes",
     description:
-      "Start with basic AI blocks like prompts, fetch requests, or logic nodes.",
+      "Add AI blocks like prompts, fetch requests, or logic nodes. Customize inputs for each node.",
   },
   {
     icon: <AiOutlineSwap className="text-6xl" />,
     title: "2. Connect Steps",
     description:
-      "Link your nodes visually to define how the AI workflow behaves.",
+      "Visually link nodes to define execution flow and pass data between steps.",
   },
   {
     icon: <AiOutlinePlayCircle className="text-6xl" />,
     title: "3. Run & Test",
     description:
-      "Simulate the workflow in real time and refine your agent instantly.",
+      "Simulate workflows in real time, check outputs, and refine steps instantly.",
   },
 ];
+
+const stepVariants: Variants = {
+  hidden: { opacity: 0, x: -50 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "spring" as const, stiffness: 70 },
+  },
+};
 
 export default function HowItWorks() {
   return (
@@ -35,14 +45,19 @@ export default function HowItWorks() {
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
         {steps.map((step, index) => (
-          <div
+          <motion.div
             key={index}
+            variants={stepVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ delay: index * 0.2 }}
             className="flex flex-col items-center space-y-3 text-center"
           >
             {step.icon}
             <h3 className="text-xl font-semibold">{step.title}</h3>
             <p className="text-gray-700">{step.description}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

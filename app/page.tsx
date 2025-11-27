@@ -5,6 +5,7 @@ import Image from "next/image";
 import Features from "@/components/Features";
 import UseCases from "@/components/UseCases";
 import HowItWorks from "@/components/HowItWorks";
+import FloatingIn from "@/components/Floating";
 
 export default function HomePage() {
   return (
@@ -21,42 +22,47 @@ export default function HomePage() {
           </Link>
         </nav>
       </header>
-
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 md:px-6 space-y-6">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
-          Visual AI Workflow Builder
-        </h2>
-        <p className="max-w-md md:max-w-xl text-gray-700 text-base sm:text-lg">
-          Build, connect, and simulate AI workflows in real time. Drag-and-drop
-          nodes, define AI agent steps, and visualize processes instantly.
-        </p>
+        <FloatingIn>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+            Visual AI Workflow Builder
+          </h2>
+        </FloatingIn>
 
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-          <Link
-            href="/editor"
-            className="px-4 py-2 sm:px-6 sm:py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-xs sm:text-sm md:text-base"
-          >
-            Try the Editor
-          </Link>
-          <Link
-            href="#features"
-            className="px-4 py-2 sm:px-6 sm:py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-xs sm:text-sm md:text-base"
-          >
-            Learn More
-          </Link>
-        </div>
+        <FloatingIn delay={0.2}>
+          <p className="max-w-md md:max-w-xl text-gray-700 text-base sm:text-lg">
+            Build, connect, and simulate AI workflows in real time.
+            Drag-and-drop nodes, define AI agent steps, and visualize processes
+            instantly.
+          </p>
+        </FloatingIn>
 
-        <div className="my-10 w-full max-w-lg sm:max-w-xl">
-          <Image
-            src="/images/illustration.svg"
-            alt="AI Workflow Illustration"
-            width={600}
-            height={400}
-            className="mx-auto w-full h-auto"
-          />
-        </div>
+        <FloatingIn delay={0.4}>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <Link
+              href="/editor"
+              className="px-4 py-2 sm:px-6 sm:py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-xs sm:text-sm md:text-base"
+            >
+              Try the Editor
+            </Link>
+            <Link
+              href="#features"
+              className="px-4 py-2 sm:px-6 sm:py-3 border border-black font-semibold rounded hover:bg-black hover:text-white transition text-xs sm:text-sm md:text-base"
+            >
+              Learn More
+            </Link>
+          </div>
+        </FloatingIn>
       </main>
-
+      <div className="my-10 w-full max-w-lg sm:max-w-xl">
+        <Image
+          src="/images/illustration.svg"
+          alt="AI Workflow Illustration"
+          width={600}
+          height={400}
+          className="mx-auto w-full h-auto"
+        />
+      </div>
       <Features />
 
       {/* How It Works */}
