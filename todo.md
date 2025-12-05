@@ -67,7 +67,3 @@
    - Mini-stepper UI for running simulation one node at a time.
 
 ---
-
-If you want, the **next logical step** is to implement the **DecisionNode** fully and then build the **right sidebar** so node properties can be edited dynamically.
-
-Do you want to do that next?
