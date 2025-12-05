@@ -8,16 +8,20 @@ const NodeSidebar: React.FC = () => {
   const nodeTypes = [
     { type: "fetch", label: "Fetch Node", icon: <Database size={16} /> },
     { type: "ai", label: "AI Node", icon: <Cpu size={16} /> },
-    { type: "decision", label: "Decision Node", icon: <GitBranch size={16} /> },
+    {
+      type: "decision",
+      label: "Decision Node",
+      icon: <GitBranch size={16} />,
+    },
   ];
 
-  // Step-by-step simulation function
+  // Step-by-step simulation logic
   const runStepByStepSimulation = async () => {
     const { nodes, edges, setNodes, setRunning, setHighlightedNodeId } =
       useFlowStore.getState();
+
     setRunning(true);
 
-    // Start nodes with no incoming edges
     const startNodes = nodes.filter(
       (node) => !edges.some((e) => e.target === node.id)
     );
@@ -28,10 +32,8 @@ const NodeSidebar: React.FC = () => {
       if (processed.has(node.id)) return;
       processed.add(node.id);
 
-      // Highlight this node
       setHighlightedNodeId(node.id);
 
-      // Assign value based on node type
       let value = "";
       switch (node.type) {
         case "fetch":
@@ -51,10 +53,8 @@ const NodeSidebar: React.FC = () => {
         )
       );
 
-      // Wait for visual effect
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Execute child nodes
       const children = edges
         .filter((e) => e.source === node.id)
         .map((e) => nodes.find((n) => n.id === e.target))
@@ -73,14 +73,11 @@ const NodeSidebar: React.FC = () => {
     setRunning(false);
   };
 
-  // Get currently highlighted node for visual feedback
-  const highlightedNodeId = useFlowStore((state) => state.highlightedNodeId);
-
   return (
     <div>
       <h2 className="text-lg font-bold mb-4">Nodes</h2>
 
-      {/* Draggable nodes */}
+      {/* Draggable Nodes */}
       {nodeTypes.map((node) => (
         <div
           key={node.type}
@@ -89,26 +86,22 @@ const NodeSidebar: React.FC = () => {
             event.dataTransfer.setData("application/reactflow", node.type);
             event.dataTransfer.effectAllowed = "move";
           }}
-          className={`cursor-grab w-full mb-2 px-2 py-1 rounded ${
-            node.type === "fetch"
-              ? "bg-blue-500 text-white"
-              : node.type === "ai"
-              ? "bg-green-500 text-white"
-              : "bg-yellow-400 text-black"
-          } ${
-            highlightedNodeId === node.type
-              ? "ring-2 ring-indigo-500 animate-pulse"
-              : ""
-          }`}
+          className={`cursor-grab w-full mb-2 px-2 py-1 rounded flex items-center gap-2
+            ${
+              node.type === "fetch"
+                ? "bg-blue-500 text-white"
+                : node.type === "ai"
+                ? "bg-green-500 text-white"
+                : "bg-yellow-400 text-black"
+            }
+          `}
         >
-          <section className="flex gap-2 items-center">
-            <span> {node.icon}</span>
-            <span>{node.label}</span>
-          </section>
+          {node.icon}
+          <span>{node.label}</span>
         </div>
       ))}
 
-      {/* Run Simulation Button */}
+      {/* Run Simulation */}
       <button
         className="mt-4 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
         onClick={runStepByStepSimulation}

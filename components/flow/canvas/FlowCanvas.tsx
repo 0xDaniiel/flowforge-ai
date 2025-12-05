@@ -39,7 +39,16 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
   const setEdges = useFlowStore((state) => state.setEdges);
   const highlightedNodeId = useFlowStore((state) => state.highlightedNodeId);
 
-  // Initialize Start Node
+  // Highlight style
+  const nodeStyle = (node: Node) => ({
+    border:
+      node.id === highlightedNodeId ? "2px solid #4F46E5" : "1px solid #ccc",
+    padding: "8px",
+    borderRadius: "6px",
+    background: "#fff",
+  });
+
+  // Initialize Start Node only on first load
   React.useEffect(() => {
     if (nodes.length === 0) {
       setNodes([
@@ -65,42 +74,45 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
     setEdges(addEdge(connection, edges));
   };
 
+  // When a node is clicked → show editor
   const onNodeClick = (_: React.MouseEvent, node: Node) => {
     setSelectedNodeId(node.id);
   };
 
-  const nodeStyle = (node: Node) => ({
-    border:
-      node.id === highlightedNodeId ? "2px solid #4F46E5" : "1px solid #ccc",
-    padding: "8px",
-    borderRadius: "6px",
-    background: "#fff",
-  });
+  // Handle drag-drop nodes from sidebar
+  const onDropNode = (event: React.DragEvent) => {
+    event.preventDefault();
+    const type = event.dataTransfer.getData("application/reactflow");
+    if (!type) return;
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const position = {
+      x: event.clientX - bounds.left,
+      y: event.clientY - bounds.top,
+    };
+
+    const id = (nodes.length + 1).toString();
+
+    const newNode: Node = {
+      id,
+      type,
+      position,
+      data: {
+        label: `${type.charAt(0).toUpperCase() + type.slice(1)} Node`,
+        apiUrl: "",
+        prompt: "",
+        condition: false,
+      },
+    };
+
+    setNodes([...nodes, newNode]);
+  };
 
   return (
     <div
       className="w-full h-full"
-      onDrop={(event) => {
-        event.preventDefault();
-        const type = event.dataTransfer.getData("application/reactflow");
-        const reactFlowBounds = event.currentTarget.getBoundingClientRect();
-        const position = {
-          x: event.clientX - reactFlowBounds.left,
-          y: event.clientY - reactFlowBounds.top,
-        };
-        const id = (nodes.length + 1).toString();
-
-        const newNode: Node = {
-          id,
-          type,
-          position,
-          data: {
-            label: `${type.charAt(0).toUpperCase() + type.slice(1)} Node`,
-          },
-        };
-
-        setNodes([...nodes, newNode]);
-      }}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={onDropNode}
     >
       <ReactFlow
         nodes={nodes.map((node) =>
