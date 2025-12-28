@@ -5,10 +5,11 @@ import { Node } from "reactflow";
 
 interface NodeEditorProps {
   selectedNode: Node | null;
-  setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  setNodes: (nodes: Node[]) => void;
+  nodes: Node[]; // ✅ pass nodes from parent
 }
 
-const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes }) => {
+const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes, nodes }) => {
   if (!selectedNode) {
     return (
       <div className="p-4 text-gray-500">
@@ -18,13 +19,15 @@ const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes }) => {
   }
 
   const updateNodeData = (field: string, value: any) => {
-    setNodes((nodes) =>
-      nodes.map((n) =>
-        n.id === selectedNode.id
-          ? { ...n, data: { ...n.data, [field]: value } }
-          : n
-      )
+    if (!selectedNode) return;
+
+    const updatedNodes = nodes.map((n) =>
+      n.id === selectedNode.id
+        ? { ...n, data: { ...n.data, [field]: value } }
+        : n
     );
+
+    setNodes(updatedNodes); // ✅ Zustand setter only takes value
   };
 
   return (
