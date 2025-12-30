@@ -49,14 +49,50 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
   });
 
   // Initialize Start Node only on first load
+  // React.useEffect(() => {
+  //   if (nodes.length === 0) {
+  //     setNodes([
+  //       {
+  //         id: "1",
+  //         type: "default",
+  //         position: { x: 100, y: 100 },
+  //         data: { label: "Start Node" },
+  //       },
+  //     ]);
+  //   }
+  // }, [nodes, setNodes]);
   React.useEffect(() => {
     if (nodes.length === 0) {
       setNodes([
         {
           id: "1",
-          type: "default",
-          position: { x: 100, y: 100 },
-          data: { label: "Start Node" },
+          type: "ai",
+          data: { label: "AI Node", value: 15, nextNode: "2" },
+          position: { x: 0, y: 0 },
+        },
+        {
+          id: "2",
+          type: "decision",
+          data: {
+            label: "Decision Node",
+            condition: "value > 10",
+            value: 15,
+            trueOutput: "3",
+            falseOutput: "4",
+          },
+          position: { x: 200, y: 0 },
+        },
+        {
+          id: "3",
+          type: "fetch",
+          data: { label: "Fetch True Node" },
+          position: { x: 400, y: -50 },
+        },
+        {
+          id: "4",
+          type: "fetch",
+          data: { label: "Fetch False Node" },
+          position: { x: 400, y: 50 },
         },
       ]);
     }
@@ -114,6 +150,21 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDropNode}
     >
+      {/* Run Flow Button */}
+      <div className="mb-2">
+        <button
+          className="p-2 bg-blue-500 text-white rounded"
+          onClick={() => {
+            const rootNodeId = nodes[0]?.id; // take first node as root
+            if (rootNodeId) {
+              useFlowStore.getState().simulateFlow(rootNodeId);
+            }
+          }}
+        >
+          Run Test Flow
+        </button>
+      </div>
+
       <ReactFlow
         nodes={nodes.map((node) =>
           node.type === "default" ? { ...node, style: nodeStyle(node) } : node
