@@ -77,7 +77,7 @@ const NodeSidebar: React.FC = () => {
     <div>
       <h2 className="text-lg font-bold mb-4">Nodes</h2>
 
-      {/* Draggable Nodes */}
+      {/* Draggable Node */}
       {nodeTypes.map((node) => (
         <div
           key={node.type}
