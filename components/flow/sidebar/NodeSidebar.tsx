@@ -4,80 +4,21 @@ import React from "react";
 import { Database, Cpu, GitBranch } from "lucide-react";
 import { useFlowStore } from "@/stores/flowStore";
 
+const nodeTypes = [
+  { type: "fetch", label: "Fetch Node", icon: <Database size={16} /> },
+  { type: "ai", label: "AI Node", icon: <Cpu size={16} /> },
+  { type: "decision", label: "Decision Node", icon: <GitBranch size={16} /> },
+];
+
 const NodeSidebar: React.FC = () => {
-  const nodeTypes = [
-    { type: "fetch", label: "Fetch Node", icon: <Database size={16} /> },
-    { type: "ai", label: "AI Node", icon: <Cpu size={16} /> },
-    {
-      type: "decision",
-      label: "Decision Node",
-      icon: <GitBranch size={16} />,
-    },
-  ];
-
-  // Step-by-step simulation logic
-  const runStepByStepSimulation = async () => {
-    const { nodes, edges, setNodes, setRunning, setHighlightedNodeId } =
-      useFlowStore.getState();
-
-    setRunning(true);
-
-    const startNodes = nodes.filter(
-      (node) => !edges.some((e) => e.target === node.id)
-    );
-
-    const processed = new Set<string>();
-
-    const executeNode = async (node: (typeof nodes)[0]) => {
-      if (processed.has(node.id)) return;
-      processed.add(node.id);
-
-      setHighlightedNodeId(node.id);
-
-      let value = "";
-      switch (node.type) {
-        case "fetch":
-          value = `Fetched from ${node.data.apiUrl}`;
-          break;
-        case "ai":
-          value = `AI output for "${node.data.prompt}"`;
-          break;
-        case "decision":
-          value = node.data.condition ? "True branch" : "False branch";
-          break;
-      }
-
-      setNodes(
-        nodes.map((n) =>
-          n.id === node.id ? { ...n, data: { ...n.data, value } } : n
-        )
-      );
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const children = edges
-        .filter((e) => e.source === node.id)
-        .map((e) => nodes.find((n) => n.id === e.target))
-        .filter(Boolean) as typeof nodes;
-
-      for (const child of children) {
-        await executeNode(child);
-      }
-    };
-
-    for (const startNode of startNodes) {
-      await executeNode(startNode);
-    }
-
-    setHighlightedNodeId(null);
-    setRunning(false);
-  };
+  const simulateFlow = useFlowStore((state) => state.simulateFlow);
+  const running = useFlowStore((state) => state.running);
 
   return (
     <div>
       <h2 className="text-lg font-bold mb-4">Nodes</h2>
 
-      {/* Draggable Node */}
+      {/* Draggable Nodes */}
       {nodeTypes.map((node) => (
         <div
           key={node.type}
@@ -101,12 +42,13 @@ const NodeSidebar: React.FC = () => {
         </div>
       ))}
 
-      {/* Run Simulation */}
+      {/* ✅ Unified Run Button */}
       <button
-        className="mt-4 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
-        onClick={runStepByStepSimulation}
+        disabled={running}
+        className="mt-4 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 disabled:opacity-50"
+        onClick={() => simulateFlow("1")}
       >
-        Run Simulation
+        {running ? "Running..." : "Run Flow"}
       </button>
     </div>
   );

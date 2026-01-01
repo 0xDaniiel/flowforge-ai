@@ -23,7 +23,7 @@ interface FlowState {
   setSelectedNodeId: (id: string | null) => void;
   setRunning: (running: boolean) => void;
   setHighlightedNodeId: (id: string | null) => void;
-  simulateFlow: (startNodeId: string) => Promise<void>; // ✅ now async
+  simulateFlow: (startNodeId: string) => Promise<void>;
 }
 
 export const useFlowStore = create<FlowState>((set, get) => ({
