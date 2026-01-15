@@ -1,33 +1,8 @@
 "use client";
 
 import React from "react";
-import {
-  AiOutlineExperiment,
-  AiOutlineBranches,
-  AiOutlineMessage,
-} from "react-icons/ai";
 import { motion, Variants } from "framer-motion";
-
-const useCases = [
-  {
-    icon: <AiOutlineExperiment className="text-6xl text-black" />,
-    title: "AI Research Agent",
-    description:
-      "Automate data collection, summarization, and multi-step reasoning tasks.",
-  },
-  {
-    icon: <AiOutlineBranches className="text-6xl text-black" />,
-    title: "Workflow Automation",
-    description:
-      "Combine fetch nodes, logic, and prompts to create end-to-end automated systems.",
-  },
-  {
-    icon: <AiOutlineMessage className="text-6xl text-black" />,
-    title: "Custom AI Chatbots",
-    description:
-      "Build specialized bots that combine external tools, APIs, and memory.",
-  },
-];
+import { useCases } from "@/data/data";
 
 const containerVariants: Variants = {
   hidden: {},

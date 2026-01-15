@@ -16,17 +16,14 @@ const EditorPage: React.FC = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
-      {/* Left Sidebar */}
       <div className="w-full md:w-60 border-b md:border-b-0 md:border-r border-gray-200 p-4">
         <NodeSidebar />
       </div>
 
-      {/* Main Canvas */}
       <div className="flex-1 bg-gray-50">
         <FlowCanvas setSelectedNodeId={setSelectedNodeId} />
       </div>
 
-      {/* Right Sidebar */}
       <NodeSettingsSidebar />
     </div>
   );

@@ -10,7 +10,6 @@ import FloatingIn from "@/components/Floating";
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
-      {/* Header */}
       <header className="py-6 px-4 md:px-6 flex justify-between items-center">
         <h1 className="text-2xl md:text-3xl font-bold">FlowForge AI</h1>
         <nav>
@@ -70,10 +69,8 @@ export default function HomePage() {
 
       <Features />
 
-      {/* How It Works */}
       <HowItWorks />
 
-      {/* Use Cases */}
       <UseCases />
 
       <section className="py-20 px-6 bg-white text-center border-t border-black">
@@ -92,7 +89,6 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* Footer */}
       <footer className="py-6 text-center border-t border-black text-sm">
         &copy; {new Date().getFullYear()} 0xDaniiel —{" "}
         <strong>FlowForge AI</strong>

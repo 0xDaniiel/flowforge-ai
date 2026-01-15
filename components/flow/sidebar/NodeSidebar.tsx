@@ -18,7 +18,6 @@ const NodeSidebar: React.FC = () => {
     <div>
       <h2 className="text-lg font-bold mb-4">Nodes</h2>
 
-      {/* Draggable Nodes */}
       {nodeTypes.map((node) => (
         <div
           key={node.type}
@@ -42,7 +41,6 @@ const NodeSidebar: React.FC = () => {
         </div>
       ))}
 
-      {/* ✅ Unified Run Button */}
       <button
         disabled={running}
         className="mt-4 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 disabled:opacity-50"

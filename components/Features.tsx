@@ -1,33 +1,8 @@
 "use client";
 
-import React from "react";
-import {
-  AiOutlineDrag,
-  AiOutlineNodeIndex,
-  AiOutlineRobot,
-} from "react-icons/ai";
 import { motion, Variants } from "framer-motion";
-
-const featuresData = [
-  {
-    icon: <AiOutlineDrag className="text-6xl" />,
-    title: "Drag-and-Drop Nodes",
-    description:
-      "Easily create workflows by dragging and connecting nodes without writing code.",
-  },
-  {
-    icon: <AiOutlineNodeIndex className="text-6xl" />,
-    title: "Visual Workflow Builder",
-    description:
-      "Organize AI processes clearly with a visual representation of all steps.",
-  },
-  {
-    icon: <AiOutlineRobot className="text-6xl" />,
-    title: "Real-Time AI Simulation",
-    description:
-      "Run and simulate your AI agent workflows instantly, seeing results in real time.",
-  },
-];
+import React from "react";
+import { featuresData } from "@/data/data";
 
 const containerVariants: Variants = {
   hidden: {},

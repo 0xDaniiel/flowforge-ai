@@ -1,33 +1,8 @@
 "use client";
 
 import React from "react";
-import {
-  AiOutlinePlusCircle,
-  AiOutlineSwap,
-  AiOutlinePlayCircle,
-} from "react-icons/ai";
+import { steps } from "@/data/data";
 import { motion, Variants } from "framer-motion";
-
-const steps = [
-  {
-    icon: <AiOutlinePlusCircle className="text-6xl" />,
-    title: "1. Add Nodes",
-    description:
-      "Add AI blocks like prompts, fetch requests, or logic nodes. Customize inputs for each node.",
-  },
-  {
-    icon: <AiOutlineSwap className="text-6xl" />,
-    title: "2. Connect Steps",
-    description:
-      "Visually link nodes to define execution flow and pass data between steps.",
-  },
-  {
-    icon: <AiOutlinePlayCircle className="text-6xl" />,
-    title: "3. Run & Test",
-    description:
-      "Simulate workflows in real time, check outputs, and refine steps instantly.",
-  },
-];
 
 const stepVariants: Variants = {
   hidden: { opacity: 0, x: -50 },

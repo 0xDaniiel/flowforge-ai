@@ -6,10 +6,14 @@ import { Node } from "reactflow";
 interface NodeEditorProps {
   selectedNode: Node | null;
   setNodes: (nodes: Node[]) => void;
-  nodes: Node[]; // ✅ pass nodes from parent
+  nodes: Node[];
 }
 
-const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes, nodes }) => {
+const NodeEditor: React.FC<NodeEditorProps> = ({
+  selectedNode,
+  setNodes,
+  nodes,
+}) => {
   if (!selectedNode) {
     return (
       <div className="p-4 text-gray-500">
@@ -27,7 +31,7 @@ const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes, nodes }
         : n
     );
 
-    setNodes(updatedNodes); // ✅ Zustand setter only takes value
+    setNodes(updatedNodes);
   };
 
   return (
@@ -36,7 +40,6 @@ const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes, nodes }
         {selectedNode.data?.label || "Node"}
       </h2>
 
-      {/* LABEL (Common for all nodes) */}
       <div>
         <label className="block text-sm font-semibold">Label</label>
         <input
@@ -46,7 +49,6 @@ const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes, nodes }
         />
       </div>
 
-      {/* FETCH NODE */}
       {selectedNode.type === "fetch" && (
         <>
           <div>
@@ -75,7 +77,6 @@ const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes, nodes }
         </>
       )}
 
-      {/* AI NODE */}
       {selectedNode.type === "ai" && (
         <>
           <div>
@@ -91,7 +92,6 @@ const NodeEditor: React.FC<NodeEditorProps> = ({ selectedNode, setNodes, nodes }
         </>
       )}
 
-      {/* DECISION NODE */}
       {selectedNode.type === "decision" && (
         <>
           <div>

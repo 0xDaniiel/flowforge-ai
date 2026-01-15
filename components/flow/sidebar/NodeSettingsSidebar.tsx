@@ -20,7 +20,6 @@ const NodeSettingsSidebar: React.FC = () => {
         setNodes={setNodes}
         nodes={nodes}
       />
-      {/* ✅ pass nodes as prop */}
     </div>
   );
 };

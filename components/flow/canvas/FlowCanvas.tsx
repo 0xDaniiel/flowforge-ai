@@ -21,7 +21,6 @@ import FetchNode from "@/components/flow/nodes/FetchNode";
 import AINode from "@/components/flow/nodes/AINode";
 import DecisionNode from "@/components/flow/nodes/DecisionNode";
 
-// Node types
 const nodeTypes = {
   fetch: FetchNode,
   ai: AINode,
@@ -39,7 +38,6 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
   const setEdges = useFlowStore((state) => state.setEdges);
   const highlightedNodeId = useFlowStore((state) => state.highlightedNodeId);
 
-  // Highlight style
   const nodeStyle = (node: Node) => ({
     border:
       node.id === highlightedNodeId ? "2px solid #4F46E5" : "1px solid #ccc",
@@ -150,12 +148,11 @@ const FlowCanvas: React.FC<FlowCanvasProps> = ({ setSelectedNodeId }) => {
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDropNode}
     >
-      {/* Run Flow Button */}
       <div className="mb-2">
         <button
           className="p-2 bg-blue-500 text-white rounded"
           onClick={() => {
-            const rootNodeId = nodes[0]?.id; // take first node as root
+            const rootNodeId = nodes[0]?.id;
             if (rootNodeId) {
               useFlowStore.getState().simulateFlow(rootNodeId);
             }
