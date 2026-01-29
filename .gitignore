@@ -41,3 +41,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# Dev files
+/todo.md
+/todo2.md
+todo.md
+todo2.md
